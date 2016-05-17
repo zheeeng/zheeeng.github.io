@@ -1,14 +1,73 @@
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: Site title
 description: > # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+url: http://yourdomain.com # the base hostname & protocol for your site
+feedurl: /pages/feed.xml
+
+# Author info
+author:
+    name: Your name
+    email: your-email@domain.com
+    link: http://yansu.org
+    enlink: http://en.yansu.org
+
+# Social account
+social:
+  twitter: jekyllrb
+  github:  twitter name
+
+# Auto metas
+defaults:
+  -
+    scope:
+      path: _posts # an empty string here means all files in the project
+      type: posts
+    values:
+      layout: post
+      author: Your name
+  -
+    scope:
+      path: _drafts # an empty string here means all files in the project
+      type: drafts
+    values:
+      layout: post
+  -
+    scope:
+      path: _posts/life
+      type: posts
+    values:
+      category: 生活
+  -
+    scope:
+      path: _posts/tech
+      type: "posts"
+    values:
+      category: 技术
+  -
+    scope:
+      path: _posts/read
+      type: posts
+    values:
+      category: 阅读
+  -
+    scope:
+      path: projects
+      type: pages
+    values:
+      layout: project
 
 # Build settings
+permalink: /articles/:year/:month/:day/:title.html
+excerpt_separator: <!--more-->
 markdown: kramdown
+kramdown:
+  input: GFM # Enable GitHub Flavored Markdown (fenced code blocks)
+  auto_ids: false # Disable auto-generated ID's for headings
+  syntax_highlighter: rouge
+highlighter: rouge
+sass:
+  style: compressed
