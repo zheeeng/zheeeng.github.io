@@ -27,7 +27,7 @@
 $transition-position: top, right, left, bottom;
 $transition-box: width, height, padding, border-width, margin;
 $transition-font: color, font-size, font-weight, font-style;
-$transition-apperance: opacity, background-color, border-color, outline-color;
+$transition-appearance: opacity, background-color, border-color, outline-color;
 
 @mixin transition ($property: (), $duration: (), $time: (), $delay: ()) {
   $transition-list: ();
