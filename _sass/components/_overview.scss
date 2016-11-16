@@ -19,112 +19,68 @@ $overview-link-bar-margin: 0 get-right-value($overview-item-margin) 10px get-lef
 $overview-link-tag-padding: scale-list($overview-link-bar-padding, .5);
 $overview-link-tag-margin: 0 5px 5px 0;
 
-%overview-heading-base {
-  cursor: default;
-}
-
-%overview-h1 {
-  @extend %overview-heading-base;
-  @include clearstyle-edge;
-  @include color('heading');
-  font-size: 1.5em; @include transition((color, font-size, font-style));
-  font-weight: 400; font-style: italic;
-  &:hover {
-    font-size: 2em; font-style: normal;
-  }
-}
-
-%overview-h2 {
-  @extend %overview-heading-base;
-  @include clearstyle-edge;
-  @include color('heading'); @include transition(color);
-  font-size: 1.5em; font-weight: 400;
-  &:hover {}
-}
-
-%overview-h3 {
-  @extend %overview-heading-base;
-  @include clearstyle-edge;
-  @include color('primary-fc'); @include transition(color);
-  font-size: 1.25em; font-weight: 300;
-  &:hover {
-    @include color('primary-fc-light');
-  }
-}
-
-%overview-p {
-  @extend %overview-heading-base;
-  padding: $overview-paragraph-padding;
-  margin: $overview-paragraph-margin;
-  @include color('secondary-fc'); @include transition(color);
-  font-size: 1em;
-  &:hover {
-    @include color('primary-fc');
-  }
-}
-
-%overview-anchor {
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 %overview-btn {
-  @extend %overview-anchor;
   padding: $overview-link-btn-padding;
   margin: $overview-link-btn-margin;
   @include border-color('secondary-fc-dark');
   border-style: solid; border-width: 1px; border-radius: 1em;
   color: inherit; font-size: .875em;
   @include background-color('primary-bc-dark');
-  @include transition((border-color, background-color));
+  @include transition($transition-appearance);
   &:hover {
     @include border-color('primary-fc');
     @include background-color('primary-bc-light');
   }
 }
 
-%overview-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  &:hover {}
+%overview-block {
+  padding: $overview-block-padding;
+  margin: $overview-block-margin;
 }
 
-%overview-li {}
-%overview-li:hover {}
+%overview-row {
+  position: relative;
+  padding: $overview-item-padding;
+  margin: $overview-item-margin;
+  @include border-left-color('primary-bc');
+  border-left-style: solid;
+  border-left-width: 1px;
+  @include transition(join-list($transition-appearance, $transition-font));
 
-%overview-meta {
-  @include color('secondary-fc'); @include transition(color);
-  &:hover {}
+  &__with-timeline {
+    @include border-left-color('secondary-fc-dark');
+  }
+  &__half {
+    padding: $overview-item-padding;
+    margin: $overview-item-margin;
+  }
 }
 
-%overview-meta-element {
-  @include color('secondary-fc'); @include transition(color);
+%overview-post_title {
+  @include color('primary-fc');
+  @include transition($transition-font);
+  &:hover {
+    @include color('primary-fc-light');
+  }
+}
+
+%overview-post_excerpt {
+  @include color('secondary-fc');
+  @include transition($transition-font);
   &:hover {
     @include color('primary-fc');
   }
 }
 
-// create an item container
-// @param   {enumerable string}  type: the type of the container
-@mixin item-wrapper ($type) {
-  @if $type == 'heading' {
-    position: relative;
-    padding: $overview-item-padding;
-    margin: $overview-item-margin;
-    @include border-left-color('primary-bc'); @include transition(border-color);
-    border-left-style: solid;
-    border-left-width: 1px;
+%overview-post_meta {
+  @include color('secondary-fc'); @include transition(color);
+  &:hover {}
+}
 
-    &__with-time-line {
-      @include border-left-color('secondary-fc-dark');
-    }
-  } @else if $type == 'entry' {
-    padding: $overview-item-padding;
-    margin: $overview-item-margin;
-  } @else {
-    @warn 'Container type \'#{$type}\' didn\'t define.';
+%overview-post_meta-element {
+  @include color('secondary-fc'); @include transition(color);
+  &:hover {
+    @include color('primary-fc');
   }
 }
 
@@ -135,9 +91,9 @@ $overview-link-tag-margin: 0 5px 5px 0;
     display: block;
     padding: $overview-link-bar-padding;
     margin: $overview-link-bar-margin;
-    @include background-color('primary-bc-dark'); @include transition(background-color);
-    @include color('secondary-fc'); @include transition(color);
-
+    @include background-color('primary-bc-dark');
+    @include color('secondary-fc');
+    @include transition(join-list($transition-font, $transition-appearance));
     &:hover {
       @include background-color('primary-bc-light');
       @include color('primary-fc');
@@ -147,8 +103,9 @@ $overview-link-tag-margin: 0 5px 5px 0;
     padding: $overview-link-tag-padding;
     margin: $overview-link-tag-margin;
     border-style: solid; border-width: 1px; border-radius: 5px;
-    @include background-color('primary-bc-dark'); @include transition(background-color);
-    @include color('secondary-fc'); @include transition(color);
+    @include background-color('primary-bc-dark');
+    @include color('secondary-fc');
+    @include transition(join-list($transition-font, $transition-appearance));
 
     &:hover {
       @include background-color('primary-bc-light');
@@ -313,50 +270,44 @@ $overview-link-tag-margin: 0 5px 5px 0;
 }
 
 .overview-post {
-  @include item-wrapper('heading');
+  @extend %overview-row;
+  &__with-timeline {
+    @extend %overview-row__with-timeline;
+  }
 
   &_title {
-    @extend %overview-h3;
+    @extend %overview-post_title;
   }
   &:hover &_title {
-    @extend %overview-h3:hover;
+    @extend %overview-post_title:hover;
   }
 
   &_excerpt {
-    @extend %overview-p;
+    @extend %overview-post_excerpt;
   }
   &:hover &_excerpt {
-    @extend %overview-p:hover;
+    @extend %overview-post_excerpt:hover;
   }
 
   &_meta {
-    @extend %overview-meta;
+    @extend %overview-post_meta;
   }
 
-  &_meta-date {
-    @extend %overview-meta-element;
+  &_meta-date, &_meta-comments {
+    @extend %overview-post_meta-element;
   }
-  &:hover &_meta-date {
-    @extend %overview-meta-element:hover;
-  }
-
-  &_meta-comments {
-    @extend %overview-meta-element;
-  }
-  &:hover &_meta-comments {
-    @extend %overview-meta-element:hover;
+  &:hover &_meta-date, &:hover &_meta-comments {
+    @extend %overview-post_meta-element:hover;
   }
 
   &_view-more {
-    padding: $overview-block-padding;
-    margin: $overview-block-margin;
+    @extend %overview-block;
     text-align: center;
   }
 }
 
 .overview-categories {
   &_link {
-    @extend %overview-anchor;
     @include item-link('bar');
   }
   &_name {
@@ -366,21 +317,21 @@ $overview-link-tag-margin: 0 5px 5px 0;
 .overview-tags {
   display: inline-block;
 
-  &_container {
-    @include item-wrapper('entry');
+  &_list {
+    // todo
+    @extend %overview-row__half;
+    &-item {
+      @extend %overview-btn;
+      @include item-link('tag');
+    }
   }
 
-  &_link {
-    @extend %overview-btn;
-    @include item-link('tag');
-  }
   &_name {
   }
 }
 
 .overview-archive {
   &_link {
-    @extend %overview-anchor;
     @include item-link('bar');
   }
   &_date {
