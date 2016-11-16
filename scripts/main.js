@@ -254,9 +254,9 @@ window.onload = function () {
     var debounce = shims.debounce
     // HTML element class hooks
     var classContainer = 'j-overview-container'
-    var classItem = 'j-overview-topic-item'
+    var classItem = 'j-overview-topic-list-item'
     var classChangeAnchor = 'j-overview-topic-change'
-    var __itemSelected = 'overview_topic-item__selected'
+    var __itemSelected = 'overview_topic-list-item__selected'
     // For navigation auto scrolling
     // Variable scrollReservZoneWidth define the width of the reserve zone on where the mouse moving event take no effect. The reserve zone locate in the beginning and the end of the scroll mapping zone. The scrollSpeedFactor control the speed of scrolling
     var classNavScrollZone = 'j-overview-topic-nav'
