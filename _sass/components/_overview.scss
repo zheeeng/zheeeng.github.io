@@ -159,7 +159,7 @@ $overview-link-tag-margin: 0 5px 5px 0;
   }
 }
 
-@include scope('.s-overview') {
+@mixin b-overview {
   .overview {
     width: 100%;
     height: 100%;
@@ -169,11 +169,7 @@ $overview-link-tag-margin: 0 5px 5px 0;
     @include color('primary-fc');
     font-size: 1rem;
     @include background-color('primary-bc');
-    @include transition((color, background-color));
-
-    &_link {
-      @extend %overview-anchor;
-    }
+    @include transition(join-list($transition-font, $transition-appearance));
 
     &_btn {
       @extend %overview-btn;
@@ -190,8 +186,7 @@ $overview-link-tag-margin: 0 5px 5px 0;
     &_zone {}
 
     &_block {
-      padding: $overview-block-padding;
-      margin: $overview-block-margin;
+      @extend %overview-block;
     }
 
     &_topic-nav {
@@ -201,7 +196,6 @@ $overview-link-tag-margin: 0 5px 5px 0;
     }
 
     &_topic-list {
-      @extend %overview-ul;
       white-space: nowrap;
       &::after {
         // Simulate the style of .overview_topic-list-item > .overview_topic-list-heading for avoiding topic heading joggling in mobile device
@@ -213,47 +207,56 @@ $overview-link-tag-margin: 0 5px 5px 0;
         width: 0;
         visibility: hidden;
       }
-    }
 
-    &_topic-item {
-      display: inline-block;
-      padding: $overview-topic-item-padding;
-      margin: $overview-topic-item-margin; @include transition(margin);
-      font-style: italic;
-      &__selected {
-        margin: scale-list($overview-topic-item-margin, (1 10 1 1));
+      &-item {
+        display: inline-block;
+        padding: $overview-topic-item-padding;
+        margin: $overview-topic-item-margin; @include transition(margin);
+        font-style: italic;
+        &__selected {
+          margin: scale-list($overview-topic-item-margin, (1 10 1 1));
+          font-style: normal;
+        }
+        &:nth-last-child(3)#{&}__selected {
+          margin: scale-list($overview-topic-item-margin, (1 6 1 1));
+        }
+        &:nth-last-child(2)#{&}__selected {
+          margin: scale-list($overview-topic-item-margin, (1 3 1 1));
+        }
+        &:last-child#{&}__selected {
+          margin: $overview-topic-item-margin;
+        }
+      }
+      &:hover &-item {
+        margin: $overview-topic-item-margin;
         font-style: normal;
       }
-      &:nth-last-child(3)#{&}__selected {
-        margin: scale-list($overview-topic-item-margin, (1 6 1 1));
-      }
-      &:nth-last-child(2)#{&}__selected {
-        margin: scale-list($overview-topic-item-margin, (1 3 1 1));
-      }
-      &:last-child#{&}__selected {
-        margin: $overview-topic-item-margin;
-      }
-    }
-    &_topic-list:hover &_topic-item {
-      margin: $overview-topic-item-margin;
-      font-style: normal;
     }
 
     &_topic-heading {
-      @extend %overview-h1;
+      @include color('heading'); font-size: 1.5em; font-style: italic;
+      @include transition($transition-font);
       &:hover {
-        @extend %overview-h1:hover;
+        font-size: 2em; font-style: normal;
       }
     }
     &_topic-item__selected &_topic-heading {
-      @extend %overview-h1:hover;
+      font-size: 2em; font-style: normal;
     }
 
     &_heading {
-      @include item-wrapper('heading');
-      @extend %overview-h2;
+      @extend %overview-row;
+      @include color('primary-fc'); @include transition(color);
+      &__with-timeline {
+        @extend %overview-row__with-timeline;
+      }
     }
   }
+}
+
+@include scope('.s-overview') {
+  @include u-base;
+  @include b-overview;
 }
 
 .overview-icon {
