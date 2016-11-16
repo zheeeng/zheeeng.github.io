@@ -79,6 +79,19 @@ $themes: (
   )
 ) !default;
 
+// Scope class should be putted before theme class
+@function insert-after-scope ($selectors, $insert) {
+  $scope-identifier: '.s-';
+  $selectors: '' + $selectors;
+  $scope-index: str-index($selectors, $scope-identifier);
+  @if ($scope-index == null) {
+    @return $insert + ' ' + $selectors;
+  }  @else {
+    $scope-index-end: $scope-index + str-index(str-slice($selectors, $scope-index), ' ') - 2;
+    @return str-slice($selectors, 1, $scope-index-end + 1) + $insert + str-slice($selectors, $scope-index-end + 1);
+  }
+}
+
 /// Themify mixin
 /// @access private
 /// @author Hugo Giraudel
@@ -89,8 +102,8 @@ $themes: (
   // Iterate over the themes
   @each $theme, $colors in $themes {
     // Create a selector (e.g. `.media.theme-unicorn, .theme-unicorn .media`)
-    &.theme-#{$theme},
-    .theme-#{$theme} & {
+    @at-root #{insert-after-scope(&, '.theme-#{$theme}')},
+    &.theme-#{$theme} {
       // Output the declaration
       #{$property}: map-get($colors, $key);
     }
